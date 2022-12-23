@@ -1,14 +1,24 @@
-const degenPhrases = {
+const madHatterPhrases = {
+	tea: [
+		`that's my cup of tea!`,
+		`clean cup! clean cup! move DOOOOWN!`,
+		`CHANGE PLACES!`,
+	],
+	mad: [
+		`we're all MAD here`,
+		`you must be mad or you wouldn't have come here`,
+		`you might just as well say that 'I see what I eat' is the same as 'I eat what I see'`,
+		'two days wrong!',
+	],
 	down: [
 		'only up here!',
-		'things might be tough.. but I promise things will get better',
-		'crypto is the future',
+		'bear market? you mean build market?',
+		'crypto is a wonderland; anything is possible!',
 		'we are here fam',
 	],
 	poap: [
-		'<@937748367235235861> can help with POAPs',
-		'I can\'t get you POAPs, but <@937748367235235861> can!',
-		'The more discord events you attend, the higher the chance of a POAP!',
+		'you get a POAP. and you get a POAP. everyone gets a POAP! where are the POAPs?',
+		'The more events you attend, the higher the chance of a POAP!',
 	],
 	app: [
 		'DEV GUILD STRONK 💪',
@@ -27,15 +37,16 @@ const degenPhrases = {
 		'Ahoy!',
 		'BANKLESSDAO STRONK 💪',
 		'ALL GUILDS STRONK 💪',
-		'wgmi',
+		'wagmi',
 		'The future is DAO.',
-		'What\'s all this noise about the Constitution, is Nicolas Cage at it again 😂',
+		'why is a raven like a writing desk?',
 		'TO THE MOOOOOON!',
 		'I am a complete degenerate.',
 		'👀',
-		'Hello! I\'m so glad you are here! wgmi fren',
-		'Shill me your project 👂',
+		'Hello! I\'m so glad you are here! wagmi!',
+		`did someone say ... GOVERNANCE? i'm titillating with excitement!`,
+		'not all heroes wear capes!',
 	],
 };
 
-export default degenPhrases;
+export default madHatterPhrases;

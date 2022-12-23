@@ -11,7 +11,7 @@ RUN apt-get update && \
     libgif-dev \
     librsvg2-dev
 
-COPY package*.json ./
+COPY package*.json yarn.lock ./
 
 RUN yarn install
 

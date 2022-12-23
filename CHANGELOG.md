@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.4.6-RELEASE (2022-12-20)
+
+1. Update Sentry DSN key in `.env.template`
+2. Update Discord server ID list
+3. Alphabetized `BANNED_NAMES` array
+
+## 1.4.5-RELEASE (2022-12-14)
+
+1. Remove discord.js-captcha dependency
+2. Update Mad Hatter commentary
+3. Modify `.eslintrc.js` to allow template literals in strings
+4. Update Docker instance
+
 ## 1.4.4-RELEASE (2022-12-01)
 
 1. Update Coordinape sign up links
