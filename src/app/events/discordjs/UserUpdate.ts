@@ -10,7 +10,7 @@ export default class implements DiscordEvent {
 	async execute(oldUser: User | PartialUser, newUser: User | PartialUser): Promise<any> {
 		try {
 			if (!oldUser || !newUser) {
-				Log.log('Skipping userUpdate event because oldUser or newUser was undefined.');
+				Log.info('Skipping userUpdate event because oldUser or newUser was undefined.');
 				return;
 			}
 
@@ -20,10 +20,10 @@ export default class implements DiscordEvent {
 			if (newUser.partial) {
 				newUser = await newUser.fetch();
 			}
-		
+
 			if (oldUser.username !== newUser.username) {
 				const guildMember = await ServiceUtils.getGuildMemberFromUser(newUser as User, process.env.DISCORD_SERVER_ID);
-				
+
 				if (ServiceUtils.isBanklessDAO(guildMember.guild)) {
 					if (await ServiceUtils.runUsernameSpamFilter(guildMember)) {
 						return;

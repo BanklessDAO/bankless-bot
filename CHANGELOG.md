@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.5-
+
+1. Updated github action workflow for qa to include loki
+2. Replaced logdna w/ pino-loki
+3. Integrate log aggregration with grafana
+4. Added loki auth fields to .env templates
+5. Removed Sentry as a dependency
+
 ## 1.4.7-RELEASE (2022-12-30)
 
 1. Update `slash-create`

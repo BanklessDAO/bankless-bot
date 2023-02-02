@@ -63,7 +63,7 @@ const ServiceUtils = {
 			return role.id === roleIds.AFK;
 		});
 	},
-	
+
 	getRole(roleManager: RoleManager, roleName: string): Role {
 		return roleManager.cache.find(role => {
 			return role.name === roleName;
@@ -82,11 +82,11 @@ const ServiceUtils = {
 		}
 		return false;
 	},
-	
+
 	isDiscordAdmin(guildMember: GuildMember): boolean {
 		return guildMember.permissions.has(Permissions.FLAGS.ADMINISTRATOR);
 	},
-	
+
 	isDiscordServerManager(guildMember: GuildMember): boolean {
 		return guildMember.permissions.has(Permissions.FLAGS.MANAGE_GUILD);
 	},
@@ -110,7 +110,7 @@ const ServiceUtils = {
 			roleIds.genesisSquad,
 		]);
 	},
-	
+
 	/**
 	 * Level 2 members have the highest precedence among the DAO
 	 * @param guildMember
@@ -118,7 +118,7 @@ const ServiceUtils = {
 	isALevel2Contributor(guildMember: GuildMember): boolean {
 		return ServiceUtils.hasRole(guildMember, roleIds.level2);
 	},
-	
+
 	isJustAMember(guildMember: GuildMember): boolean {
 		return ServiceUtils.hasSomeRole(guildMember, [
 			roleIds.level1,
@@ -126,7 +126,7 @@ const ServiceUtils = {
 			roleIds.level4,
 		]);
 	},
-	
+
 	isAGuest(guildMember: GuildMember): boolean {
 		return ServiceUtils.hasRole(guildMember, roleIds.guestPass);
 	},
@@ -140,13 +140,13 @@ const ServiceUtils = {
 			roleIds.genesisSquad,
 		]);
 	},
-	
+
 	validateLevel2AboveMembers(guildMember: GuildMember): void {
 		if (!(ServiceUtils.isAtLeastLevel2(guildMember))) {
 			throw new ValidationError('Must be `level 2` or above member.');
 		}
 	},
-	
+
 	formatDisplayDate(dateIso: string): string {
 		const options: Intl.DateTimeFormatOptions = {
 			weekday: 'long',
@@ -156,7 +156,7 @@ const ServiceUtils = {
 		};
 		return (new Date(dateIso)).toLocaleString('en-US', options);
 	},
-	
+
 	isBanklessDAO(guild: Guild): boolean {
 		if (guild == null || guild.id == null) {
 			return false;
@@ -182,12 +182,12 @@ const ServiceUtils = {
 		}
 
 		if (!member.bannable) {
-			Log.log(`Skipping username spam filter because ${member.user.tag} is not bannable.`);
+			Log.info(`Skipping username spam filter because ${member.user.tag} is not bannable.`);
 			return false;
 		}
 
 		if (await ServiceUtils.onAllowlist(member)) {
-			Log.log(`Skipping username spam filter because ${member.user.tag} is on the allowlist.`);
+			Log.info(`Skipping username spam filter because ${member.user.tag} is on the allowlist.`);
 			return false;
 		}
 
@@ -222,17 +222,17 @@ const ServiceUtils = {
 			await member.send(`You were auto-banned from the ${member.guild.name} server. If you believe this was a mistake, please contact <@${aboveAverageJoe.id}> or <@${frogmonkee.id}>.`)
 				.catch(e => {
 					// Users that have blocked the bot or disabled DMs cannot receive a DM from the bot
-					Log.log(`Unable to message user before auto-banning them. ${debugMessage} ${e}`);
+					Log.info(`Unable to message user before auto-banning them. ${debugMessage} ${e}`);
 				});
 
 			await member.ban({ reason: `Auto-banned by username spam filter. ${debugMessage}` })
 				.then(() => {
-					Log.log(`Auto-banned user. ${debugMessage}`);
+					Log.info(`Auto-banned user. ${debugMessage}`);
 				})
 				.catch(e => {
-					Log.log(`Unable to auto-ban user. ${debugMessage} ${e}`);
+					Log.info(`Unable to auto-ban user. ${debugMessage} ${e}`);
 				});
-			
+
 			return true;
 		}
 
@@ -274,12 +274,12 @@ const ServiceUtils = {
 
 		return false;
 	},
-	
+
 	getAllVoiceChannels(guildMember: GuildMember): Collection<string, VoiceChannel | StageChannel> {
 		return guildMember.guild.channels.cache
 			.filter(guildChannel =>
-				(guildChannel.type === 'GUILD_VOICE'
-					|| guildChannel.type === 'GUILD_STAGE_VOICE')) as Collection<string, VoiceChannel | StageChannel>;
+			(guildChannel.type === 'GUILD_VOICE'
+				|| guildChannel.type === 'GUILD_STAGE_VOICE')) as Collection<string, VoiceChannel | StageChannel>;
 	},
 
 	/**
@@ -295,7 +295,7 @@ const ServiceUtils = {
 			errors: ['time'],
 		})).first().content;
 	},
-	
+
 	async tryDMUser(guildMember: GuildMember, message: string): Promise<any> {
 		try {
 			await guildMember.send({ content: message });
@@ -304,7 +304,7 @@ const ServiceUtils = {
 			throw new ValidationError('I\'m trying to send you a DM... Can you try turning DMs on?');
 		}
 	},
-	
+
 	async askForLinksMessageAttachment(guildMember: GuildMember): Promise<MessageAttachment> {
 		const sendOutPOAPReplyMessage = await guildMember.send({ content: 'Please upload links.txt file from POAP.' });
 		const dmChannel: DMChannel = await sendOutPOAPReplyMessage.channel.fetch() as DMChannel;
@@ -315,7 +315,7 @@ const ServiceUtils = {
 		};
 		return (await dmChannel.awaitMessages(replyOptions)).first().attachments.first();
 	},
-	
+
 	sendOutErrorMessage: async (ctx: CommandContext): Promise<any> => {
 		const row: ComponentActionRow = {
 			type: ComponentType.ACTION_ROW,

@@ -71,7 +71,7 @@ export default async (client: DiscordClient): Promise<void> => {
 			setTimeout(async () => {
 				const guildMember = await guild.members.fetch(activeUser._id);
 				await guildMember.send({ content: `Hey <@${activeUser._id}>, your guest pass is set to expire in 15 minutes. Let us know if you have any questions!` }).catch(e => LogUtils.logError('failed to messager guest user', e));
-				
+
 			}, Math.max(expiresInMilli - (1000 * 60 * 15), 0));
 
 			// Remove user's guest pass
@@ -92,7 +92,7 @@ export default async (client: DiscordClient): Promise<void> => {
 					return;
 				}
 				Log.debug(`guest pass removed for ${activeUser._id} in db`);
-				
+
 			}, expiresInMilli);
 		} catch (e) {
 			LogUtils.logError('failed to set reminder for guest user', e);
@@ -107,7 +107,7 @@ export default async (client: DiscordClient): Promise<void> => {
  * @param {string} tag Discord tag (e.g. hydrabolt#0001)
  */
 module.exports.findGuestPassPageByDiscordTag = async (tag: string): Promise<GetPageResponse> => {
-	Log.log('finding guest pass page by discord tag');
+	Log.info('finding guest pass page by discord tag');
 	const response = await notion.databases.query({
 		database_id: process.env.NOTION_GUEST_PASS_DATABASE_ID,
 		filter: {

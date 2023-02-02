@@ -1,28 +1,40 @@
-import logdna, { Logger, LogOptions } from '@logdna/logger';
+//import logdna, { Logger, LogOptions } from '@logdna/logger';
+import pino from 'pino';
 import apiKeys from '../service/constants/apiKeys';
 import { CommandContext } from 'slash-create';
 import * as Sentry from '@sentry/node';
 
-let logger: Logger;
 
-try {
-	logger = logdna.createLogger(apiKeys.logDNAToken, {
-		app: apiKeys.logDNAAppName,
-		level: apiKeys.logDNADefault,
-	});
-	if (process.env.NODE_ENV != 'production' || !logger.info) {
-		// eslint-disable-next-line no-console
-		console.log('Logger initialized!');
-	} else {
-		logger.log('Logger initialized!');
-	}
-} catch (e) {
-	// eslint-disable-next-line no-console
-	console.log('Please setup LogDNA token.');
-	// eslint-disable-next-line no-console
-	console.log(e);
-	throw new Error();
-}
+const transport = pino.transport({
+	target: "pino-loki",
+	options: {
+		batching: true,
+		interval: 5,
+		basicAuth: {
+			username: apiKeys.lokiUserName,
+			password: apiKeys.lokiPassword,
+		},
+	},
+});
+
+const logger = pino(transport);
+
+//let logger: Logger;
+
+// try {
+// 	if (process.env.NODE_ENV != 'production' || !logger.info) {
+// 		// eslint-disable-next-line no-console
+// 		console.log('Logger initialized!');
+// 	} else {
+// 		logger.info('Logger initialized!');
+// 	}
+// } catch (e) {
+// 	// eslint-disable-next-line no-console
+// 	console.log('Please setup LogDNA token.');
+// 	// eslint-disable-next-line no-console
+// 	console.log(e);
+// 	throw new Error();
+// }
 
 const Log = {
 
@@ -96,17 +108,17 @@ const Log = {
 		}
 	},
 
-	log(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
-		if (process.env.NODE_ENV != 'production') {
-			// eslint-disable-next-line no-console
-			console.log(statement);
-		}
-		logger.log(statement, options);
-		Sentry.addBreadcrumb({
-			level: Sentry.Severity.Log,
-			message: statement,
-		});
-	},
+	// log(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	// 	if (process.env.NODE_ENV != 'production') {
+	// 		// eslint-disable-next-line no-console
+	// 		console.log(statement);
+	// 	}
+	// 	logger.log(statement, options);
+	// 	Sentry.addBreadcrumb({
+	// 		level: Sentry.Severity.Log,
+	// 		message: statement,
+	// 	});
+	// },
 
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 	addMetaProperty(key: string, value: any): void {
