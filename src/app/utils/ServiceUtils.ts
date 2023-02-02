@@ -278,7 +278,7 @@ const ServiceUtils = {
 	getAllVoiceChannels(guildMember: GuildMember): Collection<string, VoiceChannel | StageChannel> {
 		return guildMember.guild.channels.cache
 			.filter(guildChannel =>
-			(guildChannel.type === 'GUILD_VOICE'
+				(guildChannel.type === 'GUILD_VOICE'
 				|| guildChannel.type === 'GUILD_STAGE_VOICE')) as Collection<string, VoiceChannel | StageChannel>;
 	},
 

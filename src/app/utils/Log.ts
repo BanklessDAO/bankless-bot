@@ -1,4 +1,4 @@
-//import logdna, { Logger, LogOptions } from '@logdna/logger';
+// import logdna, { Logger, LogOptions } from '@logdna/logger';
 import pino from 'pino';
 import apiKeys from '../service/constants/apiKeys';
 import { CommandContext } from 'slash-create';
@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/node';
 
 
 const transport = pino.transport({
-	target: "pino-loki",
+	target: 'pino-loki',
 	options: {
 		batching: true,
 		interval: 5,
@@ -19,7 +19,7 @@ const transport = pino.transport({
 
 const logger = pino(transport);
 
-//let logger: Logger;
+// let logger: Logger;
 
 // try {
 // 	if (process.env.NODE_ENV != 'production' || !logger.info) {
