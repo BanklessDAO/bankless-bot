@@ -16,22 +16,19 @@ export default async (guildMember: GuildMember): Promise<any> => {
 		discordServerId: guildMember.guild.id,
 		isActive: false,
 	});
-	
+
 	const numberOfTimeCards: number = await completedTimeCards.count();
-	
+
 	if (numberOfTimeCards === 0) {
 		guildMember.send('No timecards found');
 		return 'No timecards found';
 	}
-	
+
 	const listOfTimeCards = await sendMultipleMessages(guildMember, completedTimeCards);
-	
-	
+
+
 	Log.info('Hours Requestsed', {
-		indexMeta: true,
-		meta: {
-			HoursReturned: 'completedTimeCards',
-		},
+		enabled: true,
 	});
 	return listOfTimeCards;
 };

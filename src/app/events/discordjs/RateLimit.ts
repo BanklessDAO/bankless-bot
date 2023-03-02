@@ -5,19 +5,11 @@ import Log, { LogUtils } from '../../utils/Log';
 export default class implements DiscordEvent {
 	name = 'rateLimit';
 	once = false;
-	
+
 	async execute(rateLimitData: RateLimitData): Promise<any> {
 		try {
 			Log.warn(`rate limit reached timeout: ${rateLimitData.timeout}`, {
-				indexMeta: true,
-				meta: {
-					timeout: rateLimitData.timeout,
-					limit: rateLimitData.limit,
-					method: rateLimitData.method,
-					path: rateLimitData.path,
-					route: rateLimitData.route,
-					global: rateLimitData.global,
-				},
+				enabled: true,
 			});
 		} catch (e) {
 			LogUtils.logError('failed to process event rateLimit', e);

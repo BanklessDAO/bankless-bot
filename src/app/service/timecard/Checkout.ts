@@ -19,19 +19,19 @@ export default async (guildMember: GuildMember, date: number, description: strin
 		discordServerId: guildMember.guild.id,
 		isActive: true,
 	});
-	
+
 	if (activeTimecard == null) {
 		throw new ValidationError(`No active event found for <@${guildMember.id}>.`);
 	}
-	
+
 	const sTime = dayjs(activeTimecard.startTime);
 	const eTime = dayjs(date);
-	
+
 	const duration = eTime.diff(sTime, 'minutes');
-	
+
 	// validation tests?
 
-	
+
 	const updateTimecardResult: UpdateWriteOpResult = await timecardDb.updateOne(activeTimecard, {
 		$set: {
 			isActive: false,
@@ -44,17 +44,11 @@ export default async (guildMember: GuildMember, date: number, description: strin
 	if (updateTimecardResult.modifiedCount !== 1) {
 		throw new ValidationError('Event is not active.');
 	}
-	
+
 	Log.info('timecard ended', {
-		indexMeta: true,
-		meta: {
-			discordId: activeTimecard.discordServerId,
-			duration: duration,
-			isActive: false,
-			description: description,
-		},
+		enabled: true,
 	});
-	
+
 	await guildMember.send(`Timecard finished at ${dayjs(date).format()}`);
 	return updateTimecardResult;
 };

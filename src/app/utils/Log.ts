@@ -1,5 +1,5 @@
 // import logdna, { Logger, LogOptions } from '@logdna/logger';
-import pino from 'pino';
+import { pino, LoggerOptions } from 'pino';
 import apiKeys from '../service/constants/apiKeys';
 import { CommandContext } from 'slash-create';
 import * as Sentry from '@sentry/node';
@@ -19,26 +19,9 @@ const transport = pino.transport({
 
 const logger = pino(transport);
 
-// let logger: Logger;
-
-// try {
-// 	if (process.env.NODE_ENV != 'production' || !logger.info) {
-// 		// eslint-disable-next-line no-console
-// 		console.log('Logger initialized!');
-// 	} else {
-// 		logger.info('Logger initialized!');
-// 	}
-// } catch (e) {
-// 	// eslint-disable-next-line no-console
-// 	console.log('Please setup LogDNA token.');
-// 	// eslint-disable-next-line no-console
-// 	console.log(e);
-// 	throw new Error();
-// }
-
 const Log = {
 
-	info(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	info(statement: string | any, options?: Omit<LoggerOptions, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.info) {
 			// eslint-disable-next-line no-console
 			console.log(statement);
@@ -51,7 +34,7 @@ const Log = {
 		}
 	},
 
-	warn(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	warn(statement: string | any, options?: Omit<LoggerOptions, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.warn) {
 			// eslint-disable-next-line no-console
 			console.log(statement);
@@ -64,7 +47,7 @@ const Log = {
 		}
 	},
 
-	debug(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	debug(statement: string | any, options?: Omit<LoggerOptions, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.debug) {
 			// eslint-disable-next-line no-console
 			console.debug(statement);
@@ -73,7 +56,7 @@ const Log = {
 		}
 	},
 
-	error(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	error(statement: string | any, options?: Omit<LoggerOptions, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.error) {
 			// eslint-disable-next-line no-console
 			console.error(statement);
@@ -86,7 +69,7 @@ const Log = {
 		}
 	},
 
-	fatal(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	fatal(statement: string | any, options?: Omit<LoggerOptions, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.fatal) {
 			// eslint-disable-next-line no-console
 			console.error(statement);
@@ -99,7 +82,7 @@ const Log = {
 		}
 	},
 
-	trace(statement: string | any, options?: Omit<LogOptions, 'level'>): void {
+	trace(statement: string | any, options?: Omit<LoggerOptions, 'level'>): void {
 		if (process.env.NODE_ENV != 'production' || !logger.trace) {
 			// eslint-disable-next-line no-console
 			console.log(statement);
@@ -121,41 +104,29 @@ const Log = {
 	// },
 
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-	addMetaProperty(key: string, value: any): void {
-		logger.addMetaProperty(key, value);
-	},
+	// addMetaProperty(key: string, value: any): void {
+	// 	logger.addMetaProperty(key, value);
+	// },
 
-	removeMetaProperty(key: string): void {
-		logger.removeMetaProperty(key);
-	},
+	// removeMetaProperty(key: string): void {
+	// 	logger.removeMetaProperty(key);
+	// },
 
-	flush(): void {
-		logger.flush();
-	},
+	// flush(): void {
+	// 	logger.flush();
+	// },
 };
 
 export const LogUtils = {
 	logCommandStart(ctx: CommandContext): void {
 		Log.info(`/${ctx.commandName} ran ${ctx.user.username}#${ctx.user.discriminator}`, {
-			indexMeta: true,
-			meta: {
-				guildId: ctx.guildID,
-				userTag: `${ctx.user.username}#${ctx.user.discriminator}`,
-				userId: ctx.user.id,
-				params: ctx.options,
-			},
+			enabled: true,
 		});
 	},
 
 	logCommandEnd(ctx: CommandContext): void {
 		Log.info(`/${ctx.commandName} ended ${ctx.user.username}#${ctx.user.discriminator}`, {
-			indexMeta: true,
-			meta: {
-				guildId: ctx.guildID,
-				userTag: `${ctx.user.username}#${ctx.user.discriminator}`,
-				userId: ctx.user.id,
-				params: ctx.options,
-			},
+			enabled: true,
 		});
 	},
 
@@ -167,13 +138,7 @@ export const LogUtils = {
 				},
 			});
 			Log.error(message, {
-				indexMeta: true,
-				meta: {
-					name: error?.name,
-					message: error?.message,
-					stack: error?.stack,
-					guildId: guildId,
-				},
+				enabled: true,
 			});
 		} catch (e) {
 			Log.error(message);

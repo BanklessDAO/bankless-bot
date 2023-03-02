@@ -93,35 +93,23 @@ function initializeDiscordEvents(): void {
 			Log.debug(`registered discordjs event ${event.name}`);
 		} catch (e) {
 			Log.error('Event failed to process', {
-				indexMeta: true,
-				meta: {
-					name: e.name,
-					message: e.message,
-					stack: e.stack,
-					event,
-				},
+				enabled: true,
 			});
 		}
 	});
 }
 
 function initializeSlashCreateEvents(): void {
-	creator.on('debug', (message) => Log.debug(`debug: ${ message }`));
-	creator.on('warn', (message) => Log.warn(`warn: ${ message }`));
-	creator.on('error', (error: Error) => Log.error(`error: ${ error }`));
+	creator.on('debug', (message) => Log.debug(`debug: ${message}`));
+	creator.on('warn', (message) => Log.warn(`warn: ${message}`));
+	creator.on('error', (error: Error) => Log.error(`error: ${error}`));
 	creator.on('synced', () => Log.debug('Commands synced!'));
 	creator.on('commandRegister', (command: SlashCommand) => Log.debug(`Registered command ${command.commandName}`));
-	creator.on('commandError', (command: SlashCommand, error: Error) => Log.error(`Command ${command.commandName}:`, {
-		indexMeta: true,
-		meta: {
-			name: error.name,
-			message: error.message,
-			stack: error.stack,
-			command,
-		},
-	}));
+	// creator.on('commandError', (command: SlashCommand, error: Error) => Log.error(`Command ${command.commandName}:`, {
+	// 	enabled: true,
+	// }));
 	// Ran after the command has completed
-	creator.on('commandRun', (command:SlashCommand, result: Promise<any>, ctx: CommandContext) => {
+	creator.on('commandRun', (command: SlashCommand, result: Promise<any>, ctx: CommandContext) => {
 		LogUtils.logCommandEnd(ctx);
 	});
 
@@ -137,13 +125,7 @@ function initializeSlashCreateEvents(): void {
 			Log.debug(`Registered slash-create event ${event.name}`);
 		} catch (e) {
 			Log.error('Slash-create event failed to process', {
-				indexMeta: true,
-				meta: {
-					name: e.name,
-					message: e.message,
-					stack: e.stack,
-					event,
-				},
+				enabled: true,
 			});
 		}
 	});
