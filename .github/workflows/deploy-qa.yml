@@ -40,3 +40,5 @@ jobs:
           HD_NOTION_TOKEN: ${{secrets.QA_NOTION_TOKEN}}
           HD_LOGDNA_TOKEN: ${{secrets.QA_LOGDNA_TOKEN}}
           HD_SENTRY_IO_DSN: ${{secrets.QA_SENTRY_IO_DSN}}
+          HD_LOKI_USER_NAME: ${{secrets.QA_LOKI_USER_NAME}}
+          HD_LOKI_PASSWORD: ${{secrets.QA_LOKI_PASSWORD}}

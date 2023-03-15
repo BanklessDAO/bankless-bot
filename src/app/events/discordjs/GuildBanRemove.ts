@@ -14,14 +14,7 @@ export default class implements DiscordEvent {
 	async execute(ban: GuildBan): Promise<any> {
 		try {
 			if (ServiceUtils.isBanklessDAO(ban.guild)) {
-				Log.debug(`unbanning user: ${ban.user.tag}`, {
-					indexMeta: true,
-					meta: {
-						userId: ban.user.id,
-						userTag: ban.user.tag,
-						guildId: ban.guild.id,
-					},
-				});
+				Log.debug(`unbanning user: ${ban.user.tag}`);
 				// Add unbanned users to allowlist so they don't get auto-banned by the bot
 				const db: Db = await MongoDbUtils.connect(constants.DB_NAME_DEGEN);
 				const dbAllowlist = db.collection(constants.DB_COLLECTION_ALLOWLIST);
