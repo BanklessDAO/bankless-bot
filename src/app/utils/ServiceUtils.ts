@@ -182,12 +182,12 @@ const ServiceUtils = {
 		}
 
 		if (!member.bannable) {
-			Log.log(`Skipping username spam filter because ${member.user.tag} is not bannable.`);
+			Log.info(`Skipping username spam filter because ${member.user.tag} is not bannable.`);
 			return false;
 		}
 
 		if (await ServiceUtils.onAllowlist(member)) {
-			Log.log(`Skipping username spam filter because ${member.user.tag} is on the allowlist.`);
+			Log.info(`Skipping username spam filter because ${member.user.tag} is on the allowlist.`);
 			return false;
 		}
 
@@ -222,15 +222,15 @@ const ServiceUtils = {
 			await member.send(`You were auto-banned from the ${member.guild.name} server. If you believe this was a mistake, please contact <@${aboveAverageJoe.id}> or <@${frogmonkee.id}>.`)
 				.catch(e => {
 					// Users that have blocked the bot or disabled DMs cannot receive a DM from the bot
-					Log.log(`Unable to message user before auto-banning them. ${debugMessage} ${e}`);
+					Log.info(`Unable to message user before auto-banning them. ${debugMessage} ${e}`);
 				});
 
 			await member.ban({ reason: `Auto-banned by username spam filter. ${debugMessage}` })
 				.then(() => {
-					Log.log(`Auto-banned user. ${debugMessage}`);
+					Log.info(`Auto-banned user. ${debugMessage}`);
 				})
 				.catch(e => {
-					Log.log(`Unable to auto-ban user. ${debugMessage} ${e}`);
+					Log.info(`Unable to auto-ban user. ${debugMessage} ${e}`);
 				});
 			
 			return true;
