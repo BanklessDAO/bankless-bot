@@ -52,14 +52,28 @@ Invite link:
 https://discord.com/api/oauth2/authorize?client_id=<YOUR_CLIENT_ID_HERE>&permissions=399163616342&scope=applications.commands%20bot
 ```
 
-
 ### Enable Developer Mode
 
 Open Discord User Settings, navigate to Advanced, and enable Developer Mode:
 ![](images/discord_developer_mode.png)
 
 ## Setup local environment file
+
 Create a `.env` file in the project root directory using `.env.template` as a template.
+
+### Create a grafana account
+Visit [Grafana.com](https://grafana.com/) :
+
+![](images/grafana-landing.png)
+
+Sign in or create an account if you don't already have one. :
+
+![](images/grafana-create-acct.png)
+
+Click `API keys` to create a new API key or use one you already have.
+Copy your API key and your username into the .env file:
+![](images/grafana-create-api.png)
+
 
 | Variable | Description|
 | --- | --- |  
@@ -73,6 +87,8 @@ Create a `.env` file in the project root directory using `.env.template` as a te
 | MONGODB_USERNAME | Omit if using Docker to build the application. |
 | MONGODB_PASS | Omit if using Docker to build the application. | 
 | MONGODB_CLUSTER | Omit if using Docker to build the application. |
+| LOKI_USER_NAME | Put in your grafana `username` here. | 
+| LOKI_PASSWORD | Put in your copied grafana `API key` here. |
 
 
 Example `.env` file (example uses random fake keys):
